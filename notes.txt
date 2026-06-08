@@ -1,0 +1,18 @@
+Phase 3
+ app/
+ -routes
+ -layout
+ -navigation
+ -server components
+ -client components
+
+ page.js-> homepage - actual the user can visits
+ layout.js -> going to wrap every page -(navbar, footer, sidebar, themeprovider)
+ global css -> for the entire app - automatically imported inside the layer.js
+
+app/
+|---page.js
+|---about.js
+    |---page.js
+|---contact/
+    |---page.js
