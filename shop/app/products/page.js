@@ -1,25 +1,14 @@
-//Server Component-> does not hundle the useState, useEffect, and onclick event
-
-// app/products/page.js
-//--> fetches products from a db & displays them
-import Link from "next/link";//-> comes from next.js-used for client side navigation
-import { query } from "@/lib/db";//->from db helper-> lets us to exacute SQL 
+import Link from "next/link";
+import { query } from "@/lib/db";
 
 export const metadata = {
-  title: "All Products | Mctaba",//->written in browser tab
+  title: "All Products | Mctaba",
 };
 
 export default async function ProductsPage() {
-    //with react-> useEffect
-    //->rows-return 
-    // rows:[{
-    //     id:1,
-    //     slug: 2
-    // }]
   const { rows: products } = await query(
     "SELECT id, slug, name, price_cents, image_url, stock FROM products ORDER BY created_at DESC"
   );
-
   return (
     <div className="max-w-5xl mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6">All Products</h1>
