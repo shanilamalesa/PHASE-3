@@ -1,3 +1,5 @@
+
+//the metadata route that generate a domain robot filr txt dinamically
 export default function robots() {
   return {
     rules: [

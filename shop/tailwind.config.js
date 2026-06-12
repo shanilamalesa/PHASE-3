@@ -1,12 +1,14 @@
+//for configuration design
+
 module.exports = {
-  content: ["./app/**/*.{js,jsx}"],
+  content: ["./app/**/*.{js,jsx}"], //the path and include js or jsx
   theme: {
-    extend: {
-      colors: {
-        brand: {
-          DEFAULT: "#1a1a1a",
+    extend: { //
+      colors: { //custom color utility
+        brand: { //
+          DEFAULT: "#1a1a1a",  //the defaul colorr
           accent: "#16a34a",
-          bg: "#faf9f6",
+          bg: "#faf9f6", 
         },
       },
       fontFamily: {
@@ -17,5 +19,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [], //Tailwing plugins
 };

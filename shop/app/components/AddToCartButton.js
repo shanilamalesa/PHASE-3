@@ -5,6 +5,13 @@ import Button from "./Button";
 export default function AddToCartButton({ product }) {
   const [added, setAdded] = useState(false);
 
+ 
+  async function handleClick() {
+    // Real cart logic is Week 15. For today, a placeholder.
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  }
+
   function handleClick() {
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);

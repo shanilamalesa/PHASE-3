@@ -1,3 +1,5 @@
+
+//open dynamic graph image 
 import { ImageResponse } from "next/og";
 import { query } from "@/lib/db";
 
@@ -14,7 +16,7 @@ export default async function Image({ params }) {
 
   return new ImageResponse(
     (
-      <div
+      <div  // for the image
         style={{
           width: "100%",
           height: "100%",

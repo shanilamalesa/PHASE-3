@@ -16,3 +16,5 @@ app/
     |---page.js
 |---contact/
     |---page.js
+
+    npm install --save-dev @axe-core/react--> shows the errors and what is missing in the app

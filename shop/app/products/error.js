@@ -8,7 +8,7 @@ export default function Error({ error, reset }) {
         We could not load this page. Please try again in a moment.
       </p>
       <button
-        onClick={() => reset()}
+        onClick={() => reset()}//reset function -> an inbult function
         className="mt-6 bg-brand text-white px-6 py-3 rounded"
       >
         Try again

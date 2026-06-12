@@ -1,3 +1,5 @@
+
+//importing database helper
 import { query } from "@/lib/db";
 
 export default async function sitemap() {
@@ -15,5 +17,5 @@ export default async function sitemap() {
     lastModified: new Date(p.created_at),
   }));
 
-  return [...staticRoutes, ...productRoutes];
+  return [...staticRoutes, ...productRoutes];//spread oparator to hundle all 
 }
