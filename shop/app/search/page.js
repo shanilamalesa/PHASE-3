@@ -2,7 +2,7 @@ import Link from "next/link";
 import { query } from "@/lib/db";
 
 export default async function SearchPage({ searchParams }) {
-  const { q = "" } = await searchParams;
+  const q = searchParams.q || "";
 
   let results = [];
   if (q.length >= 2) {

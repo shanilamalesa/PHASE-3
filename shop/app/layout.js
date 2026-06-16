@@ -54,6 +54,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import CartIndicator from "./components/CartIndicator";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,11 +73,14 @@ export default function RootLayout({ children }) {
         <header className="border-b bg-white">
           <nav className="max-w-5xl mx-auto flex items-center justify-between p-4">
             <Link href="/" className="font-bold text-xl">Mctaba</Link>
+
             <div className="flex gap-6">
-              <Link href="/products">Phones</Link>
+              <Link href="/products/category/phones">Phones</Link>
               <Link href="/about">About</Link>
               <Link href="/contact">Contact</Link>
-            </div>
+              <CartIndicator />
+          </div>
+          
           </nav>
         </header>
         <main className="flex-1">{children}</main>
