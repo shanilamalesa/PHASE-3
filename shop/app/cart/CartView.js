@@ -1,18 +1,28 @@
-// app/cart/CartView.js
 "use client";
 
 import Link from "next/link";
 import { useCart } from "@/lib/cartStore";
+import { useCheckout } from "@/lib/checkoutStore";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CartView() {
   const items = useCart((s) => s.items);
   const totalCents = useCart((s) => s.totalCents());
   const setQuantity = useCart((s) => s.setQuantity);
   const removeItem = useCart((s) => s.removeItem);
+  const goTo = useCheckout((s) => s.goTo);
+  const STATES = useCheckout((s) => s.STATES);
   const [hydrated, setHydrated] = useState(false);
+  const router = useRouter();
 
   useEffect(() => setHydrated(true), []);
+
+  function handleCheckout() {
+    goTo(STATES.CART);
+    goTo(STATES.INFO);
+    router.push("/checkout/info");
+  }
 
   if (!hydrated) return <p>Loading...</p>;
 
@@ -62,12 +72,12 @@ export default function CartView() {
         <span>KSh {(totalCents / 100).toLocaleString()}</span>
       </div>
 
-      <Link
-        href="/checkout"
-        className="block text-center bg-brand text-white py-3 rounded mt-6"
+      <button
+        onClick={handleCheckout}
+        className="block w-full text-center bg-brand text-white py-3 rounded mt-6"
       >
         Proceed to checkout
-      </Link>
+      </button>
     </div>
   );
 }
