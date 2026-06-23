@@ -1,17 +1,22 @@
+// server component by default
+
 import { query } from "@/lib/db";
 import { requireAdmin } from "@/app/actions/auth";
 import StatusUpdater from "./StatusUpdater";
 import { notFound } from "next/navigation";
 
+// exporting AdminOrderDetail that query the oder, render the page and render StatusUpdater
 export default async function AdminOrderDetail({ params }) {
   await requireAdmin();
 
-    const { id } = await params;
+  const { id } = await params;
+  // querying the order
   const { rows } = await query("SELECT * FROM orders WHERE id = $1", [id]);
   const order = rows[0];
   if (!order) notFound();
 
   const { rows: items } = await query(
+    // oi-> order items
     `SELECT oi.quantity, oi.price_cents_at_purchase, p.name, p.slug
      FROM order_items oi JOIN products p ON p.id = oi.product_id
      WHERE oi.order_id = $1`,
@@ -20,6 +25,7 @@ export default async function AdminOrderDetail({ params }) {
 
   return (
     <div className="max-w-3xl mx-auto p-8">
+      {/* Order {order.id.slice(0, 8)-> slising order id if is more than 8 character */}
       <h1 className="text-2xl font-bold mb-1">Order {order.id.slice(0, 8)}</h1>
       <p className="text-sm text-gray-500 mb-6">{new Date(order.created_at).toLocaleString("en-KE")}</p>
 

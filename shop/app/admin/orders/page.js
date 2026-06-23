@@ -1,15 +1,21 @@
 // app/admin/orders/page.js
+// server component by default
+
 import Link from "next/link";
 import { query } from "@/lib/db";
 import { requireAdmin } from "@/app/actions/auth";
 
+
 export const metadata = { title: "Orders | Admin" };
 
+//server component 
 export default async function AdminOrdersPage({ searchParams }) {
   await requireAdmin();
 
+  //if url is adminoredrs, status is going to be an empty string
   const status = searchParams.status || "";
-  const params = [];
+  const params = []; //params = ["paid"]
+  //where clause->
   let where = "";
   if (status) {
     params.push(status);
@@ -79,6 +85,7 @@ export default async function AdminOrdersPage({ searchParams }) {
   );
 }
 
+//
 function statusColor(status) {
   return {
     pending: "bg-yellow-100 text-yellow-800",
