@@ -8,7 +8,13 @@ export default function Confirmation() {
   const reset = useCheckout((s) => s.reset);
   const [hydrated, setHydrated] = useState(false);
 
-  useEffect(() => setHydrated(true), []);
+  useEffect(() => {
+    setHydrated(true);
+    const timer = setTimeout(() => {
+      reset();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!hydrated) return null;
 

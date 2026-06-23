@@ -131,6 +131,7 @@ export default function PaymentForm() {
 
     setOrderId(result.orderId);
     clearCart();
+    // reset(); 
     goTo(STATES.CONFIRMED);
     router.push("/checkout/confirmed");
   }

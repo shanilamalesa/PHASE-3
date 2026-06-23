@@ -5,6 +5,7 @@ import { useCheckout } from "@/lib/checkoutStore";
 import { useCart } from "@/lib/cartStore";
 
 export default function InfoForm() {
+  const reset = useCheckout((s) => s.reset);
   const router = useRouter();
   const info = useCheckout((s) => s.info);
   const setInfo = useCheckout((s) => s.setInfo);
@@ -17,16 +18,21 @@ export default function InfoForm() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setHydrated(true);
-    setLocal(info);
-    if (items.length === 0) {
-      router.replace("/cart");
-      return;
-    }
-    if (state !== STATES.INFO && state !== STATES.CART) {
-      goTo(STATES.INFO);
-    }
-  }, [hydrated]);
+  setHydrated(true);
+  setLocal(info);
+  if (items.length === 0) {
+    router.replace("/cart");
+    return;
+  }
+  if (state === STATES.CONFIRMED) {
+    reset();
+    router.replace("/cart");
+    return;
+  }
+  if (state !== STATES.INFO && state !== STATES.CART) {
+    goTo(STATES.INFO);
+  }
+}, [hydrated]);
 
   function handleSubmit(e) {
     e.preventDefault();

@@ -1,9 +1,20 @@
 "use server";
 
+//query-> for simple single SQL statements
+//pool--> for transaction (neede when multiple SQL statements to succees or fail together)
 import { query, pool } from "@/lib/db";
-import { revalidatePath } from "next/cache";
-import { requireAdmin } from "./auth";
+//clears Next.js cache so pages show fresh data after an update
+import { revalidatePath } from "next/cache"; 
+//The gurd function- redirects to login if not authenticated
+import { requireAdmin } from "./auth";// sercurity gate 
 
+//TRANSITIONS table
+// --> This is the state machine rules. It says:
+// From pending → you can go to paid or cancelled
+// From paid → you can go to shipped or cancelled
+// From shipped → you can only go to delivered
+// From delivered → nowhere (final state)
+// From cancelled → nowhere (final state)
 const TRANSITIONS = {
   pending: ["paid", "cancelled"],
   paid: ["shipped", "cancelled"],
@@ -12,9 +23,12 @@ const TRANSITIONS = {
   cancelled: [],
 };
 
+//the function signature
 export async function updateOrderStatus(orderId, nextStatus) {
+  //check amin 
   await requireAdmin();
 
+  //
   const { rows } = await query("SELECT status FROM orders WHERE id = $1", [orderId]);
   const current = rows[0]?.status;
   if (!current) return { error: "Order not found" };

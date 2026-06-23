@@ -55,6 +55,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import CartIndicator from "./components/CartIndicator";
+import CheckoutReset from "./components/CheckoutReset";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default function RootLayout({ children }) {
           
           </nav>
         </header>
+        <CheckoutReset />
         <main className="flex-1">{children}</main>
         <footer className="border-t p-4 text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()} Mctaba Shop
