@@ -16,6 +16,7 @@ const initial = {
   info: { name: "", phone: "", address: "" },
   paymentMethod: null,
   orderId: null,
+  checkoutRequestId: null,
 };
 
 export const useCheckout = create(
@@ -31,9 +32,7 @@ export const useCheckout = create(
           [STATES.INFO]: [STATES.PAYMENT, STATES.CART],
           [STATES.PAYMENT]: [STATES.CONFIRMED, STATES.INFO],
           [STATES.CONFIRMED]: [STATES.BROWSING],
-
         };
-
         const current = get().state;
         if (!allowed[current]?.includes(nextState)) {
           console.warn(`invalid checkout transition: ${current} -> ${nextState}`);
@@ -55,14 +54,19 @@ export const useCheckout = create(
         set({ orderId });
       },
 
+      setCheckoutRequestId(id) {
+        set({ checkoutRequestId: id });
+      },
+
       reset() {
         set({
           state: "browsing",
           info: { name: "", phone: "", address: "" },
           paymentMethod: null,
           orderId: null,
+          checkoutRequestId: null,
         });
-},
+      },
     }),
     {
       name: "mctaba-checkout",
@@ -71,6 +75,7 @@ export const useCheckout = create(
         info: s.info,
         paymentMethod: s.paymentMethod,
         orderId: s.orderId,
+        checkoutRequestId: s.checkoutRequestId,
       }),
     }
   )

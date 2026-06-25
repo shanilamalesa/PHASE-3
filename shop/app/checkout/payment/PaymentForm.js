@@ -105,6 +105,8 @@ export default function PaymentForm() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  const setCheckoutRequestId = useCheckout((s) => s.setCheckoutRequestId);
+
 
   useEffect(() => {
     setHydrated(true);
@@ -123,15 +125,23 @@ export default function PaymentForm() {
       paymentMethod: method,
     });
 
-    if (result.error) {
+    if (result.error && !result.orderId) {
       setErrorMessage(result.error);
       setSubmitting(false);
       return;
     }
 
     setOrderId(result.orderId);
+
+    if (result.checkoutRequestId) {
+      setCheckoutRequestId(result.checkoutRequestId);
+      clearCart();
+      router.push("/checkout/awaiting-payment");
+      return;
+    }
+
+    // COD flow
     clearCart();
-    // reset(); 
     goTo(STATES.CONFIRMED);
     router.push("/checkout/confirmed");
   }

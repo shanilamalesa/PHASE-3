@@ -82,7 +82,31 @@ export async function createOrder(payload) {
     revalidatePath("/products");
     revalidatePath(`/products/[slug]`, "page");
 
-    return { orderId };
+    // Handle M-Pesa STK Push
+    if (paymentMethod === "mpesa" || paymentMethod === "airtel") {
+      try {
+        const stkRes = await fetch(`${process.env.CRM_SERVER_URL}/api/payments/stk`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId,
+            phone: customer.phone,
+            amount: subtotalCents,
+          }),
+        });
+        const stkData = await stkRes.json();
+        if (!stkRes.ok) {
+          console.error("STK push failed:", stkData);
+          return { orderId, error: "Payment initiation failed. Please try again." };
+        }
+        return { orderId, checkoutRequestId: stkData.checkoutRequestId };
+      } catch (err) {
+        console.error("STK push error:", err);
+        return { orderId, error: "Could not reach payment service." };
+      }
+    }
+
+    return { orderId }; // COD orders
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("createOrder failed:", err);
