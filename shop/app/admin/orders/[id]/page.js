@@ -55,8 +55,7 @@ export default async function AdminOrderDetail({ params }) {
       </ul>
 
       <div className="mt-6">
-        <StatusUpdater orderId={id} currentStatus={order.status} />
-      </div>
+      <StatusUpdater orderId={id} currentStatus={order.status} paymentStatus={order.payment_status} />      </div>
     </div>
   );
 }
