@@ -4,7 +4,7 @@ import { updateOrderStatus } from "@/app/actions/orders";
 import { checkPaymentStatus } from "@/app/actions/checkPaymentStatus";
 
 const TRANSITIONS = {
-  pending: ["paid", "cancelled"],
+  pending: ["paid", "cancelled", "delivered"],
   paid: ["shipped", "cancelled"],
   shipped: ["delivered"],
   delivered: [],

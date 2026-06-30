@@ -68,6 +68,29 @@ export async function updateOrderStatus(orderId, nextStatus) {
     revalidatePath("/admin/orders");
     return { ok: true };
   }
+ 
+  if (nextStatus === "shipped") {
+    fetch(`${process.env.CRM_SERVER_URL}/api/orders/${orderId}/notify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "shipped" }),
+    }).catch(console.error);
+  }
+  if (nextStatus === "delivered") {
+    fetch(`${process.env.CRM_SERVER_URL}/api/orders/${orderId}/notify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "delivered" }),
+    }).catch(console.error);
+  }
+
+  if (current === "pending" && nextStatus === "delivered") {
+  await query(
+    `UPDATE orders SET status = 'delivered', payment_status = 'success', updated_at = NOW()
+     WHERE id = $1 AND payment_method = 'cod'`,
+    [orderId]
+  );
+}
 
   // All other transitions
   await query(
@@ -78,4 +101,6 @@ export async function updateOrderStatus(orderId, nextStatus) {
   revalidatePath(`/admin/orders/${orderId}`);
   revalidatePath("/admin/orders");
   return { ok: true };
+
+  
 }

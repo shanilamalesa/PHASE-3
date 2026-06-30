@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { query } from "@/lib/db";
 import { requireAdmin } from "@/app/actions/auth";
+// import { useEffect, useRef, useState } from "react";
 
 
 export const metadata = { title: "Orders | Admin" };
@@ -17,7 +18,7 @@ export default async function AdminOrdersPage({ searchParams }) {
   const params = []; //params = ["paid"]
   //where clause->
   let where = "";
-  if (status) {
+  if (status) { 
     params.push(status);
     where = `WHERE status = $${params.length}`;
   }
@@ -79,11 +80,41 @@ export default async function AdminOrdersPage({ searchParams }) {
               </td>
             </tr>
           ))}
+
+          {orders.length === 0 && (
+        <div className="text-center py-16 text-gray-500">
+          <p className="text-lg">No orders yet.</p>
+          <p className="text-sm mt-2">Orders will appear here as customers check out.</p>
+          <Link href="/products" className="mt-4 inline-block text-brand underline">
+            View your storefront
+          </Link>
+        </div>
+      )}
         </tbody>
       </table>
     </div>
   );
 }
+
+// function NewOrderWatcher({ initialCount }) {
+//   const [count, setCount] = useState(initialCount);
+//   const audio = useRef(null);
+
+//   useEffect(() => {
+//     audio.current = new Audio("/chime.mp3");
+//     const interval = setInterval(async () => {
+//       const res = await fetch("/api/admin/order-count");
+//       const data = await res.json();
+//       if (data.count > count) {
+//         audio.current.play().catch(() => {});
+//         setCount(data.count);
+//       }
+//     }, 5000);
+//     return () => clearInterval(interval);
+//   }, [count]);
+
+//   return null;
+// }
 
 //
 function statusColor(status) {
@@ -95,3 +126,4 @@ function statusColor(status) {
     cancelled: "bg-red-100 text-red-800",
   }[status] || "bg-gray-100";
 }
+
